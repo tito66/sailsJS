@@ -31,10 +31,24 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
+    '/*': function(req, res, next) {
+       // res.setLocale(req.param('lang') || sails.config.i18n.defaultLocale);
+        res.setLocale(sails.config.i18n.defaultLocale);
+        return next();
+    },
 
   '/': {
     view: 'homepage'
-  }
+  },
+
+  // Custom routes here...
+
+    /**
+     * User routes
+     */
+    'get /api/user': 'UserController.getAll',
+    'get /api/user/:id': 'UserController.getOne',
+    'post /api/user': 'UserController.create'
 
   /***************************************************************************
   *                                                                          *
