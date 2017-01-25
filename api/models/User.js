@@ -10,7 +10,7 @@ module.exports = {
     attributes: {
         username: {
             type: 'string',
-            //required: true,
+            required: false,
             unique: true,
             //alphanumericdashed: true
         },
@@ -31,6 +31,12 @@ module.exports = {
             type: 'string',
             defaultsTo: ''
         },
+        /*
+        role: {
+        type: 'INTEGER',
+        required: false
+        },
+        */
         photo: {
             type: 'string',
             defaultsTo: '',
@@ -56,5 +62,35 @@ module.exports = {
     beforeCreate: function (values, next) {
         CipherService.hashPassword(values);
         next();
+    },
+
+    getAll: function() {
+        return User.find()
+        .then(function (models) {
+            return [models];
+        });
+    },
+
+    getOne: function(id) {
+        return User.findOne(id)
+        .then(function (model) {
+            return [model];
+        });
+    },
+    insert: function (userObject) {
+
+        User.create(userObject)
+            .exec(function(err, newUser) {
+                if (err) {
+
+                    return err;
+                }
+                else {
+                    console.log(newUser);
+                    return newUser;
+                }
+            });
     }
+
+
 };
